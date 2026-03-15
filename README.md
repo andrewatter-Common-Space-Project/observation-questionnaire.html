@@ -1,2 +1,519 @@
 # observation-questionnaire.html
 Workplace Observation Tool
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workplace Observation Skills Questionnaire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --soil-deep: #3A2410;
+            --soil-medium: #5C3D2E;
+            --soil-light: #8B6F47;
+            --earth-warm: #C19A6B;
+            --sand: #E8D5B7;
+            --cream: #F5EFE7;
+            --accent-good: #2D5016;
+            --accent-poor: #8B4513;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #FFF8F0 100%);
+            color: var(--soil-deep);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 2px;
+            box-shadow: 0 20px 60px rgba(58, 36, 16, 0.12);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--soil-deep);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            border-bottom: 3px solid var(--soil-deep);
+            padding-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--soil-medium);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .instructions {
+            background: var(--sand);
+            padding: 1.5rem;
+            border-left: 4px solid var(--soil-medium);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .instructions h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+            color: var(--soil-deep);
+        }
+
+        .rating-scale {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .rating-scale div {
+            padding: 0.5rem;
+            background: var(--cream);
+            border-radius: 2px;
+        }
+
+        .statement-card {
+            background: var(--white);
+            border: 2px solid var(--sand);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .statement-card:hover {
+            border-color: var(--soil-light);
+            box-shadow: 0 4px 12px rgba(58, 36, 16, 0.08);
+        }
+
+        .statement-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--soil-medium);
+            margin-bottom: 0.5rem;
+        }
+
+        .statement-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            color: var(--soil-deep);
+            font-weight: 400;
+        }
+
+        .statement-text.pejorative {
+            font-style: italic;
+        }
+
+        .slider-container {
+            margin-top: 1rem;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--soil-medium);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, var(--accent-poor), var(--earth-warm), var(--accent-good));
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--soil-deep);
+            cursor: pointer;
+            border: 3px solid var(--white);
+            box-shadow: 0 2px 8px rgba(58, 36, 16, 0.3);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--soil-deep);
+            cursor: pointer;
+            border: 3px solid var(--white);
+            box-shadow: 0 2px 8px rgba(58, 36, 16, 0.3);
+        }
+
+        .current-rating {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--soil-deep);
+            margin-top: 0.5rem;
+        }
+
+        .results-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--sand) 0%, var(--cream) 100%);
+            border-radius: 2px;
+            border: 2px solid var(--soil-light);
+        }
+
+        .results-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--soil-deep);
+            border-bottom: 2px solid var(--soil-deep);
+            padding-bottom: 0.5rem;
+        }
+
+        .score-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .score-box {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 2px;
+            border-left: 4px solid var(--soil-medium);
+        }
+
+        .score-box h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--soil-deep);
+        }
+
+        .score-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--soil-deep);
+            line-height: 1;
+        }
+
+        .score-total {
+            font-size: 1rem;
+            color: var(--soil-medium);
+            margin-top: 0.25rem;
+        }
+
+        .interpretation {
+            background: var(--white);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-radius: 2px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .interpretation-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--soil-deep);
+        }
+
+        .interpretation.excellent {
+            border-left: 4px solid var(--accent-good);
+        }
+
+        .interpretation.good {
+            border-left: 4px solid var(--earth-warm);
+        }
+
+        .interpretation.developing {
+            border-left: 4px solid var(--soil-light);
+        }
+
+        .interpretation.needs-work {
+            border-left: 4px solid var(--accent-poor);
+        }
+
+        .reflection-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--white);
+            border: 2px solid var(--soil-medium);
+            border-radius: 2px;
+        }
+
+        .reflection-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--soil-deep);
+        }
+
+        .reflection-question {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--sand);
+        }
+
+        .reflection-question p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--soil-medium);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--sand);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--soil-medium), var(--soil-light));
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .score-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Workplace Observation Skills Questionnaire</h1>
+        <p class="subtitle">Developing Evidence-Based Professional Practice</p>
+
+        <div class="instructions">
+            <h3>Instructions</h3>
+            <p>Rate each statement below on how useful it would be as evidence in a professional portfolio or workplace discussion. Use the slider to select your rating from 1 (not useful) to 5 (excellent).</p>
+            <div class="rating-scale">
+                <div><strong>1</strong><br>Not useful</div>
+                <div><strong>2</strong><br>Poor</div>
+                <div><strong>3</strong><br>Moderate</div>
+                <div><strong>4</strong><br>Good</div>
+                <div><strong>5</strong><br>Excellent</div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="statements"></div>
+
+        <div class="results-section" id="results">
+            <h2>Your Results</h2>
+            <div class="score-grid">
+                <div class="score-box">
+                    <h3>Evidence-Based Statements</h3>
+                    <div class="score-value" id="evidenceScore">0</div>
+                    <div class="score-total">out of 50</div>
+                </div>
+                <div class="score-box">
+                    <h3>Pejorative Statements</h3>
+                    <div class="score-value" id="pejorativeScore">0</div>
+                    <div class="score-total">out of 50</div>
+                </div>
+            </div>
+            
+            <div id="evidenceInterpretation" class="interpretation"></div>
+            <div id="pejorativeInterpretation" class="interpretation"></div>
+        </div>
+
+        <div class="reflection-section">
+            <h2>Reflection Questions</h2>
+            <div class="reflection-question">
+                <p><strong>1.</strong> When you rated the pejorative statements, did any of them sound familiar from your own workplace observations? This is completely normal - we all fall into these patterns.</p>
+            </div>
+            <div class="reflection-question">
+                <p><strong>2.</strong> What makes evidence-based observation difficult? (Common answers: It takes more time, requires emotional distance, needs specific attention to detail)</p>
+            </div>
+            <div class="reflection-question">
+                <p><strong>3.</strong> How might using evidence-based language change your professional conversations? Think about discussions with managers, colleagues, or in formal reviews.</p>
+            </div>
+            <div class="reflection-question">
+                <p><strong>4.</strong> Can you rewrite three pejorative statements from your own work experience as evidence-based observations? This is the practice that builds the skill.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const statements = [
+            { id: 1, text: "My boss is a bad manager who can't make a decision.", type: "pejorative" },
+            { id: 2, text: "I notice my boss getting overwhelmed with paperwork, making it difficult for him to prioritize key decisions.", type: "evidence" },
+            { id: 3, text: "He's a really difficult character who rubs me up the wrong way.", type: "pejorative" },
+            { id: 4, text: "We have contrasting styles and habits, and this irritates us both.", type: "evidence" },
+            { id: 5, text: "The health and safety culture on our sites is terrible.", type: "pejorative" },
+            { id: 6, text: "In the last three months, I've observed that toolbox talks happen inconsistently - about twice per week rather than daily - and several workers have mentioned they're unclear about current site hazards.", type: "evidence" },
+            { id: 7, text: "Nobody listens to me in meetings.", type: "pejorative" },
+            { id: 8, text: "In yesterday's site meeting, I raised the drainage issue twice, but both times the conversation moved on to scheduling before we could discuss solutions.", type: "evidence" },
+            { id: 9, text: "The client keeps changing their mind because they don't know what they want.", type: "pejorative" },
+            { id: 10, text: "The client has requested three design revisions in the past fortnight. Each time, they've provided new information about end-user requirements that wasn't included in the original brief.", type: "evidence" },
+            { id: 11, text: "Our team has poor communication.", type: "pejorative" },
+            { id: 12, text: "I've noticed that urgent information often arrives via different channels - sometimes email, sometimes WhatsApp, sometimes verbal - which means people miss critical updates.", type: "evidence" },
+            { id: 13, text: "Young apprentices these days have no work ethic.", type: "pejorative" },
+            { id: 14, text: "The two apprentices on our crew arrive on time but often stand idle waiting for instruction. When I checked with them, they said they're unsure what tasks they're allowed to do unsupervised.", type: "evidence" },
+            { id: 15, text: "Management doesn't care about quality, only speed.", type: "pejorative" },
+            { id: 16, text: "We're currently working to a six-week deadline that requires us to complete foundations before ground condition reports are finalized, which creates tension between speed and technical accuracy.", type: "evidence" },
+            { id: 17, text: "There's a bad atmosphere in the office.", type: "pejorative" },
+            { id: 18, text: "Since the redundancies were announced three weeks ago, I've noticed people eating lunch at their desks rather than in the break room, and informal conversations have reduced noticeably.", type: "evidence" },
+            { id: 19, text: "He's lazy and always takes shortcuts.", type: "pejorative" },
+            { id: 20, text: "On the last four installations, I've observed him skipping the bracket alignment check and moving straight to final fixing, which has resulted in two callbacks for misaligned fittings.", type: "evidence" }
+        ];
+
+        let ratings = {};
+
+        function createStatementCards() {
+            const container = document.getElementById('statements');
+            
+            statements.forEach(statement => {
+                const card = document.createElement('div');
+                card.className = 'statement-card';
+                
+                const textClass = statement.type === 'pejorative' ? 'statement-text pejorative' : 'statement-text';
+                
+                card.innerHTML = `
+                    <div class="statement-number">Statement ${statement.id}</div>
+                    <div class="${textClass}">"${statement.text}"</div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>Not useful (1)</span>
+                            <span>Excellent (5)</span>
+                        </div>
+                        <input type="range" min="1" max="5" value="3" id="slider${statement.id}" data-id="${statement.id}">
+                        <div class="current-rating" id="rating${statement.id}">3</div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+
+            // Add event listeners
+            statements.forEach(statement => {
+                const slider = document.getElementById(`slider${statement.id}`);
+                slider.addEventListener('input', (e) => updateRating(statement.id, e.target.value));
+            });
+
+            // Initialize all ratings to 3
+            statements.forEach(statement => {
+                ratings[statement.id] = 3;
+            });
+
+            updateResults();
+        }
+
+        function updateRating(id, value) {
+            ratings[id] = parseInt(value);
+            document.getElementById(`rating${id}`).textContent = value;
+            updateResults();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const completed = Object.keys(ratings).length;
+            const total = statements.length;
+            const percentage = (completed / total) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        function updateResults() {
+            // Calculate evidence-based score (even numbered statements)
+            let evidenceScore = 0;
+            statements.forEach(statement => {
+                if (statement.type === 'evidence') {
+                    evidenceScore += ratings[statement.id] || 0;
+                }
+            });
+
+            // Calculate pejorative score (odd numbered statements)
+            let pejorativeScore = 0;
+            statements.forEach(statement => {
+                if (statement.type === 'pejorative') {
+                    pejorativeScore += ratings[statement.id] || 0;
+                }
+            });
+
+            document.getElementById('evidenceScore').textContent = evidenceScore;
+            document.getElementById('pejorativeScore').textContent = pejorativeScore;
+
+            // Evidence interpretation
+            const evidenceInterpretation = document.getElementById('evidenceInterpretation');
+            if (evidenceScore >= 40) {
+                evidenceInterpretation.className = 'interpretation excellent';
+                evidenceInterpretation.innerHTML = '<div class="interpretation-title">Excellent Recognition of Evidence</div><p>You can distinguish strong observational evidence. You recognize that credible workplace evidence requires specific details, neutral tone, and observable behaviors rather than judgments.</p>';
+            } else if (evidenceScore >= 30) {
+                evidenceInterpretation.className = 'interpretation good';
+                evidenceInterpretation.innerHTML = '<div class="interpretation-title">Good Recognition</div><p>You recognize quality evidence with minor uncertainty. You\'re developing the ability to identify specific, observable, and actionable statements.</p>';
+            } else if (evidenceScore >= 20) {
+                evidenceInterpretation.className = 'interpretation developing';
+                evidenceInterpretation.innerHTML = '<div class="interpretation-title">Developing Understanding</div><p>You see some value in evidence-based statements but may need to refine your criteria. Focus on identifying statements with specific details, timeframes, and observable behaviors.</p>';
+            } else {
+                evidenceInterpretation.className = 'interpretation needs-work';
+                evidenceInterpretation.innerHTML = '<div class="interpretation-title">Needs Development</div><p>Review the differences between observation and evaluation. Strong evidence includes specific details, remains neutral in tone, and describes observable behaviors rather than making judgments.</p>';
+            }
+
+            // Pejorative interpretation
+            const pejorativeInterpretation = document.getElementById('pejorativeInterpretation');
+            if (pejorativeScore < 20) {
+                pejorativeInterpretation.className = 'interpretation excellent';
+                pejorativeInterpretation.innerHTML = '<div class="interpretation-title">Excellent Critical Judgment</div><p>You correctly identify unhelpful statements. You recognize that vague, judgmental, or blame-focused statements lack the specificity needed for professional portfolios.</p>';
+            } else if (pejorativeScore < 30) {
+                pejorativeInterpretation.className = 'interpretation good';
+                pejorativeInterpretation.innerHTML = '<div class="interpretation-title">Good Awareness</div><p>Mostly accurate with some over-generosity. Continue developing your ability to spot statements that externalize blame or lack specific observable details.</p>';
+            } else if (pejorativeScore < 40) {
+                pejorativeInterpretation.className = 'interpretation developing';
+                pejorativeInterpretation.innerHTML = '<div class="interpretation-title">Developing Discernment</div><p>You may be finding value in vague criticism. Remember that professional evidence requires specificity, neutrality, and observable behaviors - not character judgments or sweeping generalizations.</p>';
+            } else {
+                pejorativeInterpretation.className = 'interpretation needs-work';
+                pejorativeInterpretation.innerHTML = '<div class="interpretation-title">Needs Development</div><p>You may not yet distinguish judgment from evidence. Focus on identifying statements that blame others, make sweeping generalizations, or lack specific observable details.</p>';
+            }
+        }
+
+        // Initialize
+        createStatementCards();
+        updateProgress();
+    </script>
+</body>
+</html>
